@@ -3,8 +3,8 @@
   "version": "0.1.01",
   "license": "MIT",
   "exports": {
-    "mod":"./mod.ts",
-    "view":"./server/server.ts"
+    "./mod":"./mod.ts",
+    "./view":"./server/server.ts"
   },
   "nodeModulesDir": "auto",
   "tasks": {
