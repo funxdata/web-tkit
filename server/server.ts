@@ -22,6 +22,7 @@ const handler = async (req: Request): Promise<Response> => {
           headers: { "Content-Type": "application/javascript" },
         });
       } catch (err) {
+        console.log(err)
         return new Response("File not found", { status: 404 });
       }
     }
@@ -34,6 +35,7 @@ const handler = async (req: Request): Promise<Response> => {
           headers: { "Content-Type": "text/css" },
         });
       } catch (err) {
+        console.log(err)
         return new Response("File not found", { status: 404 });
       }
     }
@@ -45,6 +47,8 @@ const handler = async (req: Request): Promise<Response> => {
         headers: { "Content-Type": "video/mp4" },
       });
     } catch (err) {
+      
+      console.log(err)
       return new Response("File not found", { status: 404 });
     }
   }
@@ -57,6 +61,7 @@ const handler = async (req: Request): Promise<Response> => {
         headers: { "Content-Type": "image/png" },
       });
     } catch (err) {
+      console.log(err)
       return new Response("File not found", { status: 404 });
     }
   }
@@ -72,7 +77,21 @@ const handler = async (req: Request): Promise<Response> => {
 
   // 加载主页面
   const content = await Deno.readTextFile("index.html");
-  return new Response(content, {
+  // 插入一段 JavaScript 到 </body> 前
+  const script = `
+  <script defer>
+    const ws = new WebSocket("ws://127.0.0.1:8864/live");
+    ws.onmessage = (event) => {
+      if (event.data === "reload") {
+        console.log("Reloading page...");
+        location.reload();
+      }
+    };
+  </script>
+  `;
+
+  const index_html = content.replace("</body>", `${script}\n</body>`);
+  return new Response(index_html, {
       headers: { "Content-Type": "text/html" },
     });
   };

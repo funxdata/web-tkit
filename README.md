@@ -2,37 +2,32 @@
 Web development framework tools
 
 ### 介绍
-不停扩展的一个基于deno的前段开发框架，主要针对于开发在浏览器中独立运行的代码。
+不停扩展的一个基于deno的前端开发框架，主要针对于在浏览器中独立运行的代码开发。
 
-### 运行
+### 安装与使用
 
-开发模式
-
-```
-deno task dev
+* 安装
 
 ```
-
-#### 测试
-
-```
-deno test
-
+  deno run --allow-write jsr:@dowell/toolkit@0.1.3/init
 ```
 
-
-#### 编译
-
-* 正常编译
-
-通过rolldown将ts打包为esjs文件
+* 运行
 
 ```
-deno task build
+  
+  deno task view
 
 ```
-* 安装插件包
 
+* 打包
+
+```
+    deno task pack
+```
+
+
+### 相关信息
 
 
 
