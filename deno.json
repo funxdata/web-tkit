@@ -1,6 +1,6 @@
 {
   "name": "@dowell/toolkit",
-  "version": "0.1.01",
+  "version": "0.1.1",
   "license": "MIT",
   "exports": {
     "./mod":"./mod.ts",
