@@ -1,8 +1,11 @@
 {
   "name": "@dowell/toolkit",
-  "version": "0.1.0",
+  "version": "0.1.01",
   "license": "MIT",
-  "exports": "./mod.ts",
+  "exports": {
+    "mod":"./mod.ts",
+    "view":"./server/server.ts"
+  },
   "nodeModulesDir": "auto",
   "tasks": {
     "dev": "deno run --allow-net --allow-read server/server.ts",
