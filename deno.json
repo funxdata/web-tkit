@@ -1,6 +1,6 @@
 {
   "name": "@dowell/toolkit",
-  "version": "0.1.3",
+  "version": "0.1.5",
   "license": "MIT",
   "exports": {
     "./mod":"./mod.ts",
@@ -10,7 +10,7 @@
   },
   "nodeModulesDir": "auto",
   "tasks": {
-    "dev": "deno run --allow-net --allow-read server/server.ts",
+    "dev": "deno run --allow-net --allow-read --allow-run server/server.ts",
     "build": "deno run --allow-net --allow-read --allow-env --allow-ffi server/pack.ts",
     "plugin":"deno run --allow-ffi --allow-read plugin.ts"
   },

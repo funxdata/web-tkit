@@ -98,6 +98,22 @@ const handler = async (req: Request): Promise<Response> => {
 
   Deno.serve({ port: 8864 }, handler);
 
+
+// 自动打开页面
+const url = "http://127.0.0.1:8864";
+// 2. 打开浏览器（根据平台）
+const openCmd = Deno.build.os === "windows"
+  ? ["cmd", "/c", "start", url]
+  : Deno.build.os === "darwin"
+    ? ["open", url]
+    : ["xdg-open", url];
+
+const process = new Deno.Command(openCmd[0], {
+  args: openCmd.slice(1),
+}).spawn();
+console.log(process)
+console.log("Vist local Website:", url);
+
   // 开始监听当前目录下的所有文件变化
   const watcher = Deno.watchFs(["./"]);
   console.log("Watching for file changes...");

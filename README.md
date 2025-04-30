@@ -9,7 +9,7 @@ Web development framework tools
 * 安装
 
 ```
-  deno run --allow-write jsr:@dowell/toolkit@0.1.3/init
+  deno run --allow-write jsr:@dowell/toolkit@0.1.5/init
 ```
 
 * 运行
