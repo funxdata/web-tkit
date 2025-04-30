@@ -1,0 +1,44 @@
+// 初始化项目
+
+// 初始化html 入口文件
+
+const app_html =`
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>web-toolkit</title>
+</head>
+<body>
+  <h1>web-ToolKit from index.html!</h1>
+</body>
+<script src="./src/app.ts"></script>
+</html>`
+
+await Deno.writeTextFile("./index.html", app_html);
+
+// 初始化src目录
+await Deno.mkdir("src");
+
+const app_info = `
+    console.log("this web-kit is info");
+`
+await Deno.writeTextFile("./src/app.ts", app_info);
+
+// 初始化assets
+await Deno.mkdir("assets");
+
+// 初始化deno
+const deno_cfg = `
+    {
+        "version": "0.0.1",
+        "tasks": {
+        "view": "deno run --allow-net --allow-read  jsr:@dowell/toolkit/view",
+        "pack":"deno run --allow-net --allow-read --allow-env --allow-ffi jsr:@dowell/toolkit/pack"
+    },
+    "imports": {
+        "@dowell/toolkit": "jsr:@dowell/toolkit@^0.1.2",
+    }
+  }
+`
+await Deno.writeTextFile("./deno.json", deno_cfg);

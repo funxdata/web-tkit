@@ -1,10 +1,12 @@
 {
   "name": "@dowell/toolkit",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "license": "MIT",
   "exports": {
     "./mod":"./mod.ts",
-    "./view":"./server/server.ts"
+    "./init":"./server/init.ts",
+    "./view":"./server/server.ts",
+    "./pack":"./server/pack.ts"
   },
   "nodeModulesDir": "auto",
   "tasks": {
