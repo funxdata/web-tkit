@@ -136,3 +136,9 @@ dist
 .pnp.*
 deno.lock
 ./deno.lock
+
+# rust plugin
+
+plugin/target
+plugin/target/*
+plugin/Cargo.lock
