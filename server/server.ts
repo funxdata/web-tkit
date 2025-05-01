@@ -1,3 +1,4 @@
+import { real_time_info } from "./realtime.ts";
 // server.ts
 const clients = new Set<WebSocket>();
 
@@ -17,7 +18,7 @@ const handler = async (req: Request): Promise<Response> => {
     // 加载ts文件
     if(regex_ts.test(url.pathname)){
       try {
-        const content = await Deno.readTextFile("."+url.pathname);
+        const content = await real_time_info("."+url.pathname);
         return new Response(content, {
           headers: { "Content-Type": "application/javascript" },
         });
@@ -101,6 +102,7 @@ const handler = async (req: Request): Promise<Response> => {
 
 // 自动打开页面
 const url = "http://127.0.0.1:8864";
+
 // 2. 打开浏览器（根据平台）
 const openCmd = Deno.build.os === "windows"
   ? ["cmd", "/c", "start", url]
@@ -108,14 +110,14 @@ const openCmd = Deno.build.os === "windows"
     ? ["open", url]
     : ["xdg-open", url];
 
-const process = new Deno.Command(openCmd[0], {
+new Deno.Command(openCmd[0], {
   args: openCmd.slice(1),
 }).spawn();
-console.log(process)
+
 console.log("Vist local Website:", url);
 
   // 开始监听当前目录下的所有文件变化
-  const watcher = Deno.watchFs(["./"]);
+  const watcher = Deno.watchFs(["./src/","./index.html","./assets/"]);
   console.log("Watching for file changes...");
 
   for await (const event of watcher) {
