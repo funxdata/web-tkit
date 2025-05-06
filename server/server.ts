@@ -56,9 +56,12 @@ const handler = async (req: Request): Promise<Response> => {
     // 加载video文件
   if(isVideo(url.pathname)){
     try {
-      const content = await Deno.readTextFile("."+url.pathname);
-      return new Response(content, {
-        headers: { "Content-Type": "video/mp4" },
+      const video_file = await Deno.open("."+url.pathname, { read: true });
+      return new Response(video_file.readable, {
+        status: 200,
+        headers: {
+          "content-type": "video/mp4",
+        },
       });
     } catch (err) {
       
