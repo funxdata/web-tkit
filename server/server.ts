@@ -14,6 +14,7 @@ const handler = async (req: Request): Promise<Response> => {
     const url = new URL(req.url);
     const regex_ts = /\.ts$/i;
     const regex_css = /\.css$/i;
+    const regex_js = /\.js$/i;
    
     // 加载ts文件
     if(regex_ts.test(url.pathname)){
@@ -27,11 +28,23 @@ const handler = async (req: Request): Promise<Response> => {
         return new Response("File not found", { status: 404 });
       }
     }
+    // 加载js文件
+    if(regex_js.test(url.pathname)){
+      try {
+        const content = await Deno.readTextFile("."+url.pathname);
+        return new Response(content, {
+          headers: { "Content-Type": "application/javascript" },
+        });
+      } catch (err) {
+        console.log(err)
+        return new Response("File not found", { status: 404 });
+      }
+    }
 
     // 加载css
     if(regex_css.test(url.pathname)){
       try {
-        const content = await Deno.readTextFile("./assets/base.css");
+        const content = await Deno.readTextFile("."+url.pathname);
         return new Response(content, {
           headers: { "Content-Type": "text/css" },
         });
