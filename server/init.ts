@@ -33,11 +33,11 @@ const deno_cfg = `
     "version": "0.0.1",
     "nodeModulesDir": "auto",
     "tasks": {
-        "view": "deno run --allow-net --allow-read  --allow-run jsr:@dowell/toolkit/view",
+        "view": "deno run --allow-net --allow-read  --allow-run  --allow-env --allow-ffi jsr:@dowell/toolkit/view",
         "pack":"deno run --allow-net --allow-read --allow-env --allow-ffi jsr:@dowell/toolkit/pack"
     },
     "imports": {
-        "@dowell/toolkit": "jsr:@dowell/toolkit@^0.1.7",
+        "@dowell/toolkit": "jsr:@dowell/toolkit@^0.1.8"
     }
 }
 `
