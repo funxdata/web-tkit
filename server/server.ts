@@ -1,4 +1,5 @@
 import { real_time_info } from "./realtime.ts";
+import { sass_view } from "../plugin/plugin.ts";
 // server.ts
 const clients = new Set<WebSocket>();
 
@@ -15,6 +16,7 @@ const handler = async (req: Request): Promise<Response> => {
     const regex_ts = /\.ts$/i;
     const regex_css = /\.css$/i;
     const regex_js = /\.js$/i;
+    const regex_sass = /\.sass$/i;
    
     // 加载ts文件
     if(regex_ts.test(url.pathname)){
@@ -34,6 +36,18 @@ const handler = async (req: Request): Promise<Response> => {
         const content = await Deno.readTextFile("."+url.pathname);
         return new Response(content, {
           headers: { "Content-Type": "application/javascript" },
+        });
+      } catch (err) {
+        console.log(err)
+        return new Response("File not found", { status: 404 });
+      }
+    }
+    // 处理sass
+    if(regex_sass.test(url.pathname)){
+      try {
+        const content = await sass_view("."+url.pathname);
+        return new Response(content, {
+          headers: { "Content-Type": "text/css" },
         });
       } catch (err) {
         console.log(err)

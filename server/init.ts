@@ -37,7 +37,7 @@ const deno_cfg = `
         "pack":"deno run --allow-net --allow-read --allow-env --allow-ffi jsr:@dowell/toolkit/pack"
     },
     "imports": {
-        "@dowell/toolkit": "jsr:@dowell/toolkit@^0.1.8"
+        "@dowell/toolkit": "jsr:@dowell/toolkit@^0.1.10"
     }
 }
 `

@@ -1,0 +1,52 @@
+// 定义一个变量
+$primary-color: #3498db;
+$secondary-color: #2ecc71;
+$font-stack: "Helvetica", sans-serif;
+
+// 定义一个混合宏
+@mixin border-radius($radius) {
+  -webkit-border-radius: $radius;
+     -moz-border-radius: $radius;
+          border-radius: $radius;
+}
+
+// 继承样式
+%button-styles {
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  display: inline-block;
+}
+
+// 使用变量和混合宏
+.button {
+  @extend %button-styles;
+  background-color: $primary-color;
+  color: white;
+  @include border-radius(5px);
+
+  &:hover {
+    background-color: $secondary-color;
+  }
+}
+
+.alert {
+  @extend %button-styles;
+  background-color: red;
+  color: white;
+  @include border-radius(5px);
+
+  .icon {
+    margin-right: 5px;
+  }
+
+  &:hover {
+    background-color: darkred;
+  }
+}
+
+h1 {
+  font-family: $font-stack;
+  color: $primary-color;
+}
