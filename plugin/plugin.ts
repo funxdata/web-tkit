@@ -5,9 +5,8 @@ const libPath =
     : Deno.build.os === "darwin"
     ? "./plugin/lib/plugin.dylib"
     : "./plugin/lib/plugin.so";
-  console.log(libPath)
   const absolutePath = await Deno.realPath(libPath);
-  console.log(absolutePath);
+  console.log("绝对路径:", absolutePath);
 
 // 定义函数签名
 const dylib = Deno.dlopen(absolutePath, {
