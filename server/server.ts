@@ -87,7 +87,7 @@ const handler = async (req: Request): Promise<Response> => {
   // 加载图片文件
   if(isImage(url.pathname)){
     try {
-      const content = await Deno.readTextFile("."+url.pathname);
+      const content = await Deno.readFile("."+url.pathname);
       return new Response(content, {
         headers: { "Content-Type": "image/png" },
       });
