@@ -1,13 +1,16 @@
 // 动态库路径（根据平台设置）
 const libPath =
   Deno.build.os === "windows"
-    ? "./plugin/lib/plugin.dll"
+    ? "./plugin/lib/plugin.dll"  // "./plugin/lib/plugin.dll"
     : Deno.build.os === "darwin"
     ? "./plugin/lib/plugin.dylib"
     : "./plugin/lib/plugin.so";
+  console.log(libPath)
+  const absolutePath = await Deno.realPath(libPath);
+  console.log(absolutePath);
 
 // 定义函数签名
-const dylib = Deno.dlopen(libPath, {
+const dylib = Deno.dlopen(absolutePath, {
   sass_to_css_view: { parameters: ["pointer"], result: "pointer" },
 });
 
@@ -44,6 +47,6 @@ export const sass_view = async (file_src: string): Promise<string> => {
   return resultStr;
 };
 
-export const pack_sass = async (file_src: Request): Promise<string> => {
-  return "";
-};
+// export const pack_sass = async (file_src: Request): Promise<string> => {
+//   return "";
+// };
