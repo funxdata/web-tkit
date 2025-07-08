@@ -20,3 +20,8 @@
 
 //     compiler.run().expect("Build failed");
 // }
+
+
+fn main(){
+    println!("Hello test!");
+}

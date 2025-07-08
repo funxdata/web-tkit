@@ -22,3 +22,7 @@
 //     println!("Build complete!");
 //     Ok(())
 // }
+
+fn main(){
+    println!("Hello test!");
+}
