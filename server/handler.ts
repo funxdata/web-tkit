@@ -1,5 +1,5 @@
 import { real_time_info } from "./realtime.ts";
-import { sass_view } from "../plugin/plugin.ts";
+// import { sass_view } from "../plugin/plugin.ts";
 
 const isImage=(file:string)=> {
   return /\.(jpg|jpeg|png|gif|bmp|webp|svg)$/i.test(file);
@@ -18,7 +18,7 @@ export const ReqHandler = (
       const regex_ts = /\.ts$/i;
       const regex_css = /\.css$/i;
       const regex_js = /\.js$/i;
-      const regex_sass = /\.sass$/i;
+      // const regex_sass = /\.sass$/i;
   
       if (regex_ts.test(url.pathname)) {
         try {

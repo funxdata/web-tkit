@@ -1,5 +1,5 @@
 // build.ts
-import * as esbuild from "https://deno.land/x/esbuild@v0.25.6/mod.js";
+import * as esbuild from "esbuild";
 
 // build.ts
 const pack_src = Deno.args[0];
