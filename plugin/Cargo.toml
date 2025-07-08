@@ -1,7 +1,7 @@
 [package]
 name = "plugin"
 version = "0.1.0"
-edition = "2024"
+edition = "2021"
 
 [lib]
 crate-type = ["cdylib"]
@@ -9,3 +9,23 @@ crate-type = ["cdylib"]
 [dependencies]
 futures = "0.3.31"
 deno_core = "0.344.0"
+lightningcss = "1.0.0-alpha.65"
+grass = "0.13.4"
+swc_core = { version = "31.0.1", features = [
+    # Common utilities
+    "common",
+
+    # AST & Parser
+    "ecma_ast",
+    "ecma_parser",
+
+    # Code generation
+    "ecma_codegen",
+
+    # Transforms
+    "ecma_transforms",
+    "ecma_transforms_typescript",
+    # Visitor support
+    "ecma_visit",
+] }
+

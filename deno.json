@@ -10,9 +10,8 @@
   },
   "nodeModulesDir": "auto",
   "tasks": {
-    "dev": "deno run --allow-net --allow-read --allow-run --allow-env --allow-ffi server/server.ts",
-    "build": "deno run --allow-net --allow-read --allow-env --allow-ffi server/pack.ts",
-    "plugin":"deno run --allow-ffi --allow-read plugin.ts"
+    "view": "deno run --allow-net --allow-read --allow-run --allow-env --allow-ffi server/server.ts",
+    "pack":"deno run  --allow-net --allow-read --allow-run --allow-env --allow-ffi server/pack.ts"
   },
   "imports": {
     "@std/assert": "jsr:@std/assert@1",
