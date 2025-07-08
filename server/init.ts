@@ -9,9 +9,11 @@ const app_html =`
   <title>web-toolkit</title>
 </head>
 <body>
-  <h1>web-ToolKit from index.html!</h1>
+  <div id="app">
+    <h1>web-ToolKit from index.html!</h1>
+  </div>
 </body>
-<script src="./src/app.ts"></script>
+<script type="module" src="./src/app.ts"></script>
 </html>`
 
 await Deno.writeTextFile("./index.html", app_html);
@@ -20,8 +22,10 @@ await Deno.writeTextFile("./index.html", app_html);
 await Deno.mkdir("src");
 
 const app_info = `
-    console.log("this web-kit is info");
-`
+  console.log("this web-kit is info");
+  const app_doc = document.getElementById("app") as HTMLElement;
+  app_doc.innerHTML = "<h1>web-ToolKit from index.html!</h1>";
+  `
 await Deno.writeTextFile("./src/app.ts", app_info);
 
 // 初始化assets
@@ -37,7 +41,10 @@ const deno_cfg = `
         "pack":"deno run --allow-net --allow-read --allow-env --allow-ffi jsr:@dowell/toolkit/pack"
     },
     "imports": {
-        "@dowell/toolkit": "jsr:@dowell/toolkit@^0.1.10"
+        "@dowell/toolkit": "jsr:@dowell/toolkit@^0.1.14"
+    },
+    "compilerOptions": {
+      "lib": ["dom", "dom.iterable", "esnext","deno.ns"]
     }
 }
 `

@@ -31,6 +31,21 @@ export const ReqHandler = (
           return new Response("File not found", { status: 404 });
         }
       }
+
+      if (url.pathname.endsWith(".glb")) {
+        try {
+          const file = await Deno.open("." + url.pathname, { read: true });
+          return new Response(file.readable, {
+            status: 200,
+            headers: {
+              "Content-Type": "model/gltf-binary",
+            },
+          });
+        } catch (err) {
+          console.log(err);
+          return new Response("GLB file not found", { status: 404 });
+        }
+      }
   
       if (regex_js.test(url.pathname)) {
         try {

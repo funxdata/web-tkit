@@ -1,6 +1,6 @@
 {
   "name": "@dowell/toolkit",
-  "version": "0.1.13",
+  "version": "0.1.14",
   "license": "MIT",
   "exports": {
     "./mod":"./mod.ts",
@@ -19,5 +19,5 @@
   },
   "compilerOptions": {
     "lib": ["dom", "dom.iterable", "esnext","deno.ns"]
-}
+  }
 }
