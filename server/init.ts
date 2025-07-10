@@ -42,7 +42,7 @@ const deno_cfg = `
         "screen": "deno run --allow-net --allow-read --allow-run --allow-env --allow-ffi --allow-sys jsr:@dowell/toolkit/screen",
     },
     "imports": {
-        "@dowell/toolkit": "jsr:@dowell/toolkit@^0.1.18"
+        "@dowell/toolkit": "jsr:@dowell/toolkit@^0.1.20"
     },
     "compilerOptions": {
       "lib": ["dom", "dom.iterable", "esnext","deno.ns"]
