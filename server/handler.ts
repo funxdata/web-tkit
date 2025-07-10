@@ -1,3 +1,4 @@
+import { extname } from "@std/path";
 import { real_time_info } from "./realtime.ts";
 import { contentType } from "@std/media-types";
 
@@ -10,6 +11,7 @@ export const ReqHandler = (
     const url = new URL(req.url);
     const pathname = url.pathname;
     const filePath = "." + pathname;
+    // console.log(url);
 
     // 🔁 WebSocket live reload
     if (pathname === "/live") {
@@ -37,7 +39,8 @@ export const ReqHandler = (
     try {
       const stat = await Deno.stat(filePath);
       if (stat.isFile) {
-        const mime = contentType(pathname) || "application/octet-stream";
+        const ext = extname(pathname); // 这里将得到 ".css"
+        const mime = contentType(ext) || "application/octet-stream";
         const content = await Deno.readFile(filePath);
         return new Response(content, {
           headers: { "Content-Type": mime },
