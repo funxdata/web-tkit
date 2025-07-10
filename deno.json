@@ -6,11 +6,13 @@
     "./mod":"./mod.ts",
     "./init":"./server/init.ts",
     "./view":"./server/server.ts",
-    "./pack":"./server/pack.ts"
+    "./pack":"./server/pack.ts",
+    "./screen":"./server/screen.ts"
   },
   "nodeModulesDir": "auto",
   "tasks": {
     "view": "deno run --allow-net --allow-read --allow-run --allow-env --allow-ffi --allow-sys server/server.ts",
+    "screen": "deno run --allow-net --allow-read --allow-run --allow-env --allow-ffi --allow-sys server/screen.ts",
     "pack":"deno run  --allow-net --allow-read --allow-run --allow-env --allow-ffi server/pack.ts"
   },
   "imports": {

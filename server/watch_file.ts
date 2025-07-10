@@ -1,6 +1,6 @@
 import { normalize, SEPARATOR } from "@std/path";
 
-const IGNORED_DIRS = ["node_modules", "dist", ".git", ".vscode", ".cache"];
+const IGNORED_DIRS = ["node_modules", "dist", ".git", ".vscode", ".cache","screen.exe.WebView2"];
 
 export const shouldIgnore = (filePath: string): boolean => {
   const parts = normalize(filePath).split(SEPARATOR);
