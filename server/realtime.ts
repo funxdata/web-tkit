@@ -1,4 +1,5 @@
 import * as esbuild from "esbuild";
+import { sassPlugin } from 'esbuild-sass-plugin';
 
 async function sha256(message: string): Promise<string> {
   const encoder = new TextEncoder();
@@ -20,3 +21,39 @@ export const  real_time_info =async (file_src:string)=>{
     });
     return await Deno.readTextFile(pack_src);
 }
+
+export const  real_time_scss_info =async (file_src:string)=>{
+    const file_src_md5 = await sha256(file_src)
+    const pack_src = './.cache/scss_to_css_cache_'+file_src_md5+'.css';
+    await esbuild.build({
+      entryPoints: [file_src],
+      bundle: true,
+      outfile: pack_src,
+      plugins: [sassPlugin({ type: 'css' })],
+      loader: {
+        '.scss': 'css'
+      },
+      sourcemap: false,                 // 可选，开启 sourcemap
+      minify: false,                   // 可选，是否压缩
+    });
+    return await Deno.readTextFile(pack_src);
+}
+
+export const  real_time_sass_info =async (file_src:string)=>{
+    const file_src_md5 = await sha256(file_src)
+    const pack_src = './.cache/sass_to_css_cache_'+file_src_md5+'.css';
+    await esbuild.build({
+      entryPoints: [file_src],
+      bundle: true,
+      outfile: pack_src,
+      plugins: [sassPlugin({ type: 'css' })],
+      loader: {
+        '.sass': 'css',
+      },
+      sourcemap: false,                 // 可选，开启 sourcemap
+      minify: false,                   // 可选，是否压缩
+    });
+    return await Deno.readTextFile(pack_src);
+}
+
+

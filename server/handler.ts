@@ -1,5 +1,5 @@
 import { extname } from "@std/path";
-import { real_time_info } from "./realtime.ts";
+import { real_time_info, real_time_sass_info, real_time_scss_info } from "./realtime.ts";
 import { contentType } from "@std/media-types";
 
 // 主请求处理器
@@ -22,7 +22,7 @@ export const ReqHandler = (
       return response;
     }
 
-    // ⚡ 特别处理 .ts 文件
+    // 特别处理 .ts 文件
     if (pathname.endsWith(".ts")) {
       try {
         const content = await real_time_info(filePath);
@@ -34,7 +34,30 @@ export const ReqHandler = (
         return new Response("TS file not found", { status: 404 });
       }
     }
-
+    // 特别处理.sass 文件
+    if (pathname.endsWith(".sass")) {
+      try {
+        const content = await real_time_sass_info(filePath);
+        return new Response(content, {
+          headers: { "Content-Type": "text/css" },
+        });
+      } catch (err) {
+        console.error(err);
+        return new Response("sass file not found", { status: 404 });
+      }
+    }
+    // 特别处理.sass 文件
+    if (pathname.endsWith(".scss")) {
+      try {
+        const content = await real_time_scss_info(filePath);
+        return new Response(content, {
+          headers: { "Content-Type": "text/css" },
+        });
+      } catch (err) {
+        console.error(err);
+        return new Response("sass file not found", { status: 404 });
+      }
+    }
     // 📦 通用静态文件处理
     try {
       const stat = await Deno.stat(filePath);

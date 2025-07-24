@@ -1,6 +1,6 @@
 import { normalize, SEPARATOR } from "@std/path";
 
-const IGNORED_DIRS = ["node_modules", "dist", ".git", ".vscode", ".cache","screen.exe.WebView2"];
+const IGNORED_DIRS = ["node_modules","plugin","dist", ".git", ".vscode", ".cache","screen.exe.WebView2"];
 
 export const shouldIgnore = (filePath: string): boolean => {
   const parts = normalize(filePath).split(SEPARATOR);
@@ -8,7 +8,6 @@ export const shouldIgnore = (filePath: string): boolean => {
 };
 
 export const Watch_Files = async (WebSocket:Set<WebSocket>) => {
-  
   const watcher = Deno.watchFs(["./"]);
   for await (const event of watcher) {
     if (["modify", "create", "remove"].includes(event.kind)) {
