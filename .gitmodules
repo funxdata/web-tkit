@@ -1,0 +1,9 @@
+[submodule "template"]
+	path = template
+	url = https://github.com/funxdata/template.git
+[submodule "pages"]
+	path = pages
+	url = https://github.com/funxdata/pages.git
+[submodule "webdx"]
+	path = webdx
+	url = https://github.com/funxdata/webdx.git
