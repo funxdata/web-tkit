@@ -1,7 +1,6 @@
 // build.ts
 import * as esbuild from "esbuild";
 import { basename, extname } from "@std/path";
-import { sassPlugin } from 'esbuild-sass-plugin';
 
 // build.ts
 const pack_src = Deno.args[0];
@@ -24,34 +23,6 @@ if(ext==".ts"){
     drop: ["console", "debugger"],// 去除console和debugger
   });
 }
-
-if(ext==".sass"){
-  await esbuild.build({
-    entryPoints: [pack_src],
-      bundle: true,
-      outfile: `assets/${name}.css`,
-      plugins: [sassPlugin({ type: 'css' })],
-      loader: {
-        '.scss': 'css'
-      },
-      sourcemap: false,                 // 可选，开启 sourcemap
-      minify: false,                   // 可选，是否压缩
-  });
-}
-if(ext==".scss"){
-  await esbuild.build({
-   entryPoints: [pack_src],
-      bundle: true,
-      outfile: `assets/${name}.css`,
-      plugins: [sassPlugin({ type: 'css' })],
-      loader: {
-        '.sass': 'css'
-      },
-      sourcemap: false,                 // 可选，开启 sourcemap
-      minify: false,                   // 可选，是否压缩
-  });
-}
-
 
 esbuild.stop();
 console.log("✅ 构建完成！");
