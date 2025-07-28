@@ -1,9 +1,8 @@
 {
   "name": "@dowell/toolkit",
-  "version": "0.1.21",
+  "version": "0.1.22",
   "license": "MIT",
   "exports": {
-    "./mod":"./mod.ts",
     "./init":"./server/init.ts",
     "./view":"./server/server.ts",
     "./pack":"./server/pack.ts",
