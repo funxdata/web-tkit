@@ -1,6 +1,6 @@
 {
   "name": "@funxdata/toolkit",
-  "version": "0.1.23",
+  "version": "0.1.24",
   "license": "MIT",
    "exclude": [
     "template/",
@@ -9,7 +9,10 @@
     "dist/",
     ".vscode/",
     "plugin",
-    "node_modules"
+    "node_modules",
+    "screen.exe",
+    "index.html",
+    ".gitmodules"
   ],
   "exports": {
     "./init":"./server/init.ts",
