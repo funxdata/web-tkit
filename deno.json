@@ -1,7 +1,16 @@
 {
-  "name": "@dowell/toolkit",
-  "version": "0.1.22",
+  "name": "@funxdata/toolkit",
+  "version": "0.1.23",
   "license": "MIT",
+   "exclude": [
+    "template/",
+    "webdx/",
+    "pages/",
+    "dist/",
+    ".vscode/",
+    "plugin",
+    "node_modules"
+  ],
   "exports": {
     "./init":"./server/init.ts",
     "./view":"./server/server.ts",
