@@ -1,18 +1,11 @@
-import { resolve, dirname, fromFileUrl } from "@std/path";
 import { uploadFileToUpyun, readFilesRecursive } from "./upfiles.ts";
 
 // 发布的目录
-const args_src = Deno.args[0];
-// 获取当前模块的目录路径
-const __dirname = dirname(fromFileUrl(import.meta.url));
-console.log(__dirname);
+const args_dir = Deno.args[0];
 
-// 示例用法
-const publicDir = resolve(__dirname, args_src);
-console.log(publicDir);
-const stat = await Deno.stat(publicDir).catch(() => null);
+const stat = await Deno.stat(args_dir).catch(() => null);
 if (!stat?.isFile) {
-  console.log(`${publicDir} not found`);
+  console.log(`${args_dir} not found`);
   Deno.exit(1); // 可选
 } 
 
@@ -20,7 +13,7 @@ if (!stat?.isFile) {
 const cloud_dir = Deno.args[1];
 
 // 读取所有文件
-const dir_files = await readFilesRecursive(publicDir);
+const dir_files = await readFilesRecursive(args_dir);
 
 // 上传文件文档文件
 for (const file of dir_files) {
