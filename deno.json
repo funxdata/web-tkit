@@ -2,7 +2,7 @@
   "name": "@funxdata/toolkit",
   "version": "0.1.24",
   "license": "MIT",
-   "exclude": [
+  "exclude": [
     "template/",
     "webdx/",
     "pages/",
@@ -18,7 +18,8 @@
     "./init":"./server/init.ts",
     "./view":"./server/server.ts",
     "./pack":"./server/pack.ts",
-    "./screen":"./server/screen.ts"
+    "./screen":"./server/screen.ts",
+    "./release":"./server/release.ts"
   },
   "nodeModulesDir": "auto",
   "tasks": {

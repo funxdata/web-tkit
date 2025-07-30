@@ -42,7 +42,7 @@ const deno_cfg = `
         "screen": "deno run --allow-net --allow-read --allow-run --allow-env --allow-ffi --allow-sys jsr:@dowell/toolkit/screen",
     },
     "imports": {
-        "@dowell/toolkit": "jsr:@dowell/toolkit@^0.1.21"
+        "@dowell/toolkit": "jsr:@dowell/funxdata@^0.1.21"
     },
     "compilerOptions": {
       "lib": ["dom", "dom.iterable", "esnext","deno.ns"]
@@ -50,3 +50,14 @@ const deno_cfg = `
 }
 `
 await Deno.writeTextFile("./deno.json", deno_cfg);
+
+// deno-lint-ignore no-deprecated-deno-api
+const cmd = new Deno.Command("deno", {
+  args: ["add", "@funxdata/toolkit"],
+  stdout: "piped",
+  stderr: "piped",
+});
+
+const child = cmd.spawn();
+const status = await child.status;
+console.log("Exit code:", status.code);
