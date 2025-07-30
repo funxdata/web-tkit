@@ -4,7 +4,7 @@ import { uploadFileToUpyun, readFilesRecursive } from "./upfiles.ts";
 const args_dir = Deno.args[0];
 
 const stat = await Deno.stat(args_dir).catch(() => null);
-if (!stat?.isFile) {
+if (!stat?.isDirectory) {
   console.log(`${args_dir} not found`);
   Deno.exit(1); // 可选
 } 

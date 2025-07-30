@@ -1,6 +1,6 @@
 {
   "name": "@funxdata/toolkit",
-  "version": "0.1.26",
+  "version": "0.1.28",
   "license": "MIT",
   "exclude": [
     "template/",
@@ -23,12 +23,15 @@
   },
   "nodeModulesDir": "auto",
   "tasks": {
-    "view": "deno run --allow-net --allow-read --allow-run --allow-env --allow-ffi --allow-sys server/server.ts",
+    "view": "deno run --allow-net --allow-read --allow-run --allow-env --allow-ffi --allow-sys --allow-write server/server.ts",
     "screen": "deno run --allow-net --allow-read --allow-run --allow-env --allow-ffi --allow-sys server/screen.ts",
-    "pack":"deno run  --allow-net --allow-read --allow-run --allow-env --allow-ffi server/pack.ts"
+    "pack":"deno run  --allow-net --allow-read --allow-run --allow-env --allow-ffi --allow-write server/pack.ts"
   },
   "imports": {
+    "@deno/emit": "jsr:@deno/emit@^0.46.0",
+     "@funxdata/webdx/dxhttp": "jsr:@funxdata/webdx@^0.0.2/dxhttp",
     "@std/assert": "jsr:@std/assert@1",
+    "@std/fs": "jsr:@std/fs@^1.0.19",
     "@std/media-types": "jsr:@std/media-types@^1.1.0",
     "@std/path": "jsr:@std/path@^1.1.1",
     "esbuild": "npm:esbuild@^0.25.6"

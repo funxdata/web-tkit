@@ -1,28 +1,54 @@
 // build.ts
-import * as esbuild from "esbuild";
+import { bundle } from "@deno/emit";
 import { basename, extname } from "@std/path";
+import { ensureDir } from "@std/fs";
+import * as esbuild from "esbuild";
 
-// build.ts
+// 1. 获取入口文件
 const pack_src = Deno.args[0];
 const stat = await Deno.stat(pack_src).catch(() => null);
 if (!stat?.isFile) {
-  console.log(`${pack_src} not found`);
-  Deno.exit(1); // 可选
-} 
-
-const nameWithExt = basename(pack_src);     // "build.ts"
-const ext = extname(pack_src);              // ".ts"
-const name = nameWithExt.replace(ext, "");  // "build"
-if(ext==".ts"){
-  await esbuild.build({
-    entryPoints: [pack_src],  // 你的入口文件
-    bundle: true,                 // 打包成一个文件
-    minify: true,                 // 压缩代码
-    outfile: `assets/${name}.js`,    // 输出文件
-    target: "es2022",             // 目标环境
-    drop: ["console", "debugger"],// 去除console和debugger
-  });
+  console.error(`${pack_src} not found`);
+  Deno.exit(1);
 }
 
+// 2. 获取文件名信息
+const nameWithExt = basename(pack_src);
+const ext = extname(pack_src);
+const name = nameWithExt.replace(ext, "");
+
+// 3. 加载 import map
+let importMap: any = {};
+try {
+  const text = await Deno.readTextFile("deno.json");
+  const json = JSON.parse(text);
+  if (json.imports || json.importMap) {
+    importMap = json;
+  }
+} catch {
+  console.warn("⚠️ 未找到 deno.json 或导入映射为空");
+}
+
+// 4. bundle
+const result = await bundle(pack_src, { importMap });
+if (!result.code) {
+  console.error("❌ 打包失败：无输出结果");
+  Deno.exit(1);
+}
+
+// 5. 用 esbuild 压缩和去 console/debugger
+const outputPath = `assets/${name}.js`;
+await ensureDir("assets");
+
+const transformed = await esbuild.transform(result.code, {
+  minify: true,
+  target: "es2022",
+  drop: ["console", "debugger"], // 去除 console/debugger
+  format: "esm",
+});
+
+// 6. 写入输出文件
+await Deno.writeTextFile(outputPath, transformed.code);
 esbuild.stop();
-console.log("✅ 构建完成！");
+
+console.log(`✅ 构建完成：${outputPath}`);
