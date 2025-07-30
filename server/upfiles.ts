@@ -1,6 +1,6 @@
 // upyun.ts
 import { extname, join, relative } from "@std/path";
-import { S3Client, PutObjectCommand } from "npm:@aws-sdk/client-s3";
+import { S3Client, PutObjectCommand } from "npm:@aws-sdk/client-s3@3.856.0";
 
 // ✅ 读取环境变量（兼容 Node 风格）
 const config = {
