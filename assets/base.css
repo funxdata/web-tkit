@@ -1,2 +1,0 @@
-:root{--breakpoint-xs:0;--breakpoint-sm:576px;--breakpoint-md:768px;--breakpoint-lg:992px;--breakpoint-xl:1200px;--web-toolbar-height-40:2.5rem;--web-header-height:3.75rem;--web-header-edit-height:3rem;--web-box-routate-l90:rotate(-90deg);--border-radius-maxsize:999px}
-@keyframes loading-svg-rotate{to{transform:rotate(1turn)}}

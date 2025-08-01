@@ -11,7 +11,7 @@ Web development framework tools
 * 安装
 
 ```
-  deno run --allow-write jsr:@dowell/toolkit@0.1.21/init
+  deno run --allow-write jsr:@funxdata/toolkit@0.1.21/init
 ```
 
 * 运行
