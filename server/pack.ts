@@ -35,9 +35,19 @@ if (!result.code) {
   console.error("❌ 打包失败：无输出结果");
   Deno.exit(1);
 }
+let project_name = importMap.project
+if(project_name==undefined||project_name==""){
+  project_name = importMap.name
+}
+let project_version = importMap.version
+if(project_version==undefined||project_version==""){
+  project_version = "0.0.1"
+}
 
+const project_name_str = project_name.replace(/^@[^/]+\//, "");
+const version_str = project_version.replace(/\./g, "_");
 // 5. 用 esbuild 压缩和去 console/debugger
-const outputPath = `assets/${name}.js`;
+const outputPath = `assets/${project_name_str}_${name}_${version_str}.js`;
 await ensureDir("assets");
 
 const transformed = await esbuild.transform(result.code, {
