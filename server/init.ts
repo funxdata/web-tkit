@@ -37,12 +37,12 @@ const deno_cfg = `
     "version": "0.0.1",
     "nodeModulesDir": "auto",
     "tasks": {
-        "view": "deno run --allow-net --allow-read  --allow-run  --allow-env --allow-ffi --allow-sys jsr:@dowell/toolkit/view",
-        "pack":"deno run --allow-net --allow-read --allow-env --allow-ffi --allow-sys jsr:@dowell/toolkit/pack",
-        "screen": "deno run --allow-net --allow-read --allow-run --allow-env --allow-ffi --allow-sys jsr:@dowell/toolkit/screen",
+        "view": "deno run --allow-net --allow-read  --allow-run  --allow-env --allow-ffi --allow-sys jsr:@funxdata/toolkit/view",
+        "pack":"deno run --allow-net --allow-read --allow-env --allow-ffi --allow-sys jsr:@funxdata/toolkit/pack",
+        "screen": "deno run --allow-net --allow-read --allow-run --allow-env --allow-ffi --allow-sys jsr:@funxdata/toolkit/screen",
     },
     "imports": {
-        "@dowell/toolkit": "jsr:@dowell/funxdata@^0.1.21"
+        "@funxdata/toolkit": "jsr:@funxdata/funxdata@^0.1.21"
     },
     "compilerOptions": {
       "lib": ["dom", "dom.iterable", "esnext","deno.ns"]
@@ -51,13 +51,13 @@ const deno_cfg = `
 `
 await Deno.writeTextFile("./deno.json", deno_cfg);
 
-// deno-lint-ignore no-deprecated-deno-api
 const cmd = new Deno.Command("deno", {
-  args: ["add", "@funxdata/toolkit"],
+  args: ["update", ""],
   stdout: "piped",
   stderr: "piped",
 });
 
 const child = cmd.spawn();
+
 const status = await child.status;
 console.log("Exit code:", status.code);

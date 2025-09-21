@@ -21,22 +21,31 @@
     "./screen":"./server/screen.ts",
     "./release":"./server/release.ts"
   },
-  "nodeModulesDir": "auto",
   "tasks": {
     "view": "deno run --allow-net --allow-read --allow-run --allow-env --allow-ffi --allow-sys --allow-write server/server.ts",
     "screen": "deno run --allow-net --allow-read --allow-run --allow-env --allow-ffi --allow-sys server/screen.ts",
     "pack":"deno run  --allow-net --allow-read --allow-run --allow-env --allow-ffi --allow-write server/pack.ts"
   },
   "imports": {
+    "@bobthered/tailwindcss-palette-generator": "jsr:@bobthered/tailwindcss-palette-generator@^4.0.0",
     "@deno/emit": "jsr:@deno/emit@^0.46.0",
     "@funxdata/webdx/dxhttp": "jsr:@funxdata/webdx@^0.0.2/dxhttp",
-    "@std/assert": "jsr:@std/assert@1",
+    "@std/assert": "jsr:@std/assert@^1.0.14",
     "@std/fs": "jsr:@std/fs@^1.0.19",
     "@std/media-types": "jsr:@std/media-types@^1.1.0",
-    "@std/path": "jsr:@std/path@^1.1.1",
-    "esbuild": "npm:esbuild@^0.25.6"
+    "@std/path": "jsr:@std/path@^1.1.2",
+    "@tailwindcss/oxide": "npm:@tailwindcss/oxide@4.1.13",
+    "@tailwindcss/postcss": "npm:@tailwindcss/postcss@^4.1.13",
+    "autoprefixer": "npm:autoprefixer@^10.4.21",
+    "cssnano": "npm:cssnano@^7.1.1",
+    "esbuild": "npm:esbuild@^0.25.10",
+    "postcss": "npm:postcss@^8.5.6",
+    "postcss-import": "npm:postcss-import@^16.1.1",
+    "postcss-nested": "npm:postcss-nested@^7.0.2",
+    "tailwindcss": "npm:tailwindcss@^4.1.13"
   },
   "compilerOptions": {
     "lib": ["dom", "dom.iterable", "esnext","deno.ns"]
-  }
+  },
+  "nodeModulesDir": "auto"
 }

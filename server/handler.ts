@@ -1,6 +1,7 @@
 import { extname } from "@std/path";
 import { real_time_info } from "./realtime.ts";
 import { contentType } from "@std/media-types";
+import { view_tailwindcss } from "./parsecss.ts";
 
 // 主请求处理器
 export const ReqHandler = (
@@ -33,11 +34,25 @@ export const ReqHandler = (
         return new Response("TS file not found", { status: 404 });
       }
     }
+
+    // 特别处理 .css 文件（Tailwind 实时编译）
+    if (pathname.endsWith(".css")) {
+      try {
+        const css = await view_tailwindcss(filePath);
+        return new Response(css, {
+          headers: { "Content-Type": "text/css" },
+        });
+      } catch (err) {
+        console.error(err);
+        return new Response("CSS compile error", { status: 500 });
+      }
+    }
+
     // 📦 通用静态文件处理
     try {
       const stat = await Deno.stat(filePath);
       if (stat.isFile) {
-        const ext = extname(pathname); // 这里将得到 ".css"
+        const ext = extname(pathname);
         const mime = contentType(ext) || "application/octet-stream";
         const content = await Deno.readFile(filePath);
         return new Response(content, {

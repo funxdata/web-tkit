@@ -17,7 +17,6 @@ const cloud_dir = Deno.args[1];
 
 // 读取所有文件
 const dir_files = await readFilesRecursive(args_dir);
-
 // 上传文件文档文件
 for (const file of dir_files) {
   await uploadFileToUpyun(cloud_dir+version, file.fullPath, file.relativePath);

@@ -138,7 +138,7 @@ deno.lock
 ./deno.lock
 
 # rust plugin
-
+examples
 plugin/target
 plugin/target/*
 plugin/Cargo.lock
