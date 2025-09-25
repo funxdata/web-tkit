@@ -15,7 +15,6 @@ if (!config.AccessKey || !config.SecretAccessKey || !config.bucketname) {
   Deno.exit(1);
 }
 
-
 // ✅ 初始化兼容又拍云的 S3 客户端
 const s3 = new S3Client({
   endpoint: "https://s3.api.upyun.com",

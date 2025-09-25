@@ -1,6 +1,6 @@
 {
   "name": "@funxdata/toolkit",
-  "version": "0.1.32",
+  "version": "0.1.33",
   "license": "MIT",
   "exclude": [
     "template/",
@@ -24,12 +24,13 @@
   "tasks": {
     "view": "deno run --allow-net --allow-read --allow-run --allow-env --allow-ffi --allow-sys --allow-write server/server.ts",
     "screen": "deno run --allow-net --allow-read --allow-run --allow-env --allow-ffi --allow-sys server/screen.ts",
-    "pack":"deno run  --allow-net --allow-read --allow-run --allow-env --allow-ffi --allow-write server/pack.ts"
+    "pack":"deno run  --allow-net --allow-read --allow-run --allow-env --allow-ffi --allow-write server/pack.ts",
+    "release":"deno run  --allow-net --allow-read --allow-run --allow-env --allow-ffi --allow-write server/release.ts"
   },
   "imports": {
     "@bobthered/tailwindcss-palette-generator": "jsr:@bobthered/tailwindcss-palette-generator@^4.0.0",
     "@deno/emit": "jsr:@deno/emit@^0.46.0",
-    "@funxdata/webdx/dxhttp": "jsr:@funxdata/webdx@^0.0.2/dxhttp",
+    "@funxdata/webdx/dxhttp": "jsr:@funxdata/webdx@^0.0.7/dxhttp",
     "@std/assert": "jsr:@std/assert@^1.0.14",
     "@std/fs": "jsr:@std/fs@^1.0.19",
     "@std/media-types": "jsr:@std/media-types@^1.1.0",

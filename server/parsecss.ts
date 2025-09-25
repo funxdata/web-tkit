@@ -6,7 +6,6 @@ import postcssImport from "postcss-import";        // postcss文件兼容导入
 import postcssNested from "postcss-nested"; // 代码一些规范化转义
 import cssnano from "cssnano";  // 代码压缩工具
 
-
 // deno-lint-ignore no-explicit-any
 const tailwindConfig: any = {
   content: ["./src/*.{html,js,ts,css}"],
