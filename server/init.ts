@@ -37,7 +37,7 @@ const base_css_info = `
     @apply p-4 bg-blue-500 text-white rounded-lg;
   }
   `
-await Deno.writeTextFile("./assets/css/base.css", app_html);
+await Deno.writeTextFile("./assets/css/base.css", base_css_info);
 // 初始化deno
 const deno_cfg = `
 {
@@ -48,17 +48,17 @@ const deno_cfg = `
         "screen": "deno run --allow-net --allow-read --allow-run --allow-env --allow-ffi --allow-sys jsr:@funxdata/toolkit/screen"
     },
     "imports": {
-        "@funxdata/toolkit": "jsr:@funxdata/funxdata@^0.1.34"
+        "@funxdata/toolkit": "jsr:@funxdata/funxdata@^0.1.36"
     },
     "compilerOptions": {
       "lib": ["dom", "dom.iterable", "esnext","deno.ns"]
     },
-    "nodeModulesDir": "auto",
+    "nodeModulesDir": "auto"
 }
 `
 
 // 写入 deno.json（存在则覆盖）
-await Deno.writeTextFile("./deno.json", JSON.stringify(deno_cfg, null, 2));
+await Deno.writeTextFile("./deno.json", deno_cfg);
 
 // 更新到最新的deno 包
 const cmd = new Deno.Command("deno", {
