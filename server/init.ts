@@ -45,10 +45,10 @@ const deno_cfg = `
     "tasks": {
         "view": "deno run --allow-net --allow-read  --allow-run  --allow-env --allow-ffi --allow-sys jsr:@funxdata/toolkit/view",
         "pack":"deno run --allow-net --allow-read --allow-env --allow-ffi --allow-sys jsr:@funxdata/toolkit/pack",
-        "screen": "deno run --allow-net --allow-read --allow-run --allow-env --allow-ffi --allow-sys jsr:@funxdata/toolkit/screen",
+        "screen": "deno run --allow-net --allow-read --allow-run --allow-env --allow-ffi --allow-sys jsr:@funxdata/toolkit/screen"
     },
     "imports": {
-        "@funxdata/toolkit": "jsr:@funxdata/funxdata@^0.1.33"
+        "@funxdata/toolkit": "jsr:@funxdata/funxdata@^0.1.34"
     },
     "compilerOptions": {
       "lib": ["dom", "dom.iterable", "esnext","deno.ns"]
