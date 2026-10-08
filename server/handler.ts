@@ -1,19 +1,35 @@
-import { extname } from "@std/path";
-import { real_time_info } from "./realtime.ts";
+// server/handler.ts
+import { extname, normalize, resolve } from "@std/path";
 import { contentType } from "@std/media-types";
+import { real_time_info } from "./realtime.ts";
 import { view_tailwindcss } from "./parsecss.ts";
 
-// 主请求处理器
+const ROOT = resolve(".");
+const PORT = 8864;
+
+const isInsideRoot = (absPath: string): boolean =>
+  absPath === ROOT || absPath.startsWith(ROOT + "/");
+
+const text = (body: string, status = 200): Response =>
+  new Response(body, {
+    status,
+    headers: { "Content-Type": "text/plain; charset=utf-8" },
+  });
+
 export const ReqHandler = (
   clients: Set<WebSocket>,
-  LOCAL_IP: string
-) => {
+  LOCAL_IP: string,
+): (req: Request) => Promise<Response> => {
   return async function req_Handler(req: Request): Promise<Response> {
     const url = new URL(req.url);
-    const pathname = url.pathname;
-    const filePath = "." + pathname;
+    const pathname = decodeURIComponent(url.pathname);
+    const absPath = normalize(resolve(ROOT, "." + pathname));
 
-    // 🔁 WebSocket live reload
+    if (!isInsideRoot(absPath)) {
+      return text("Forbidden", 403);
+    }
+
+    // WebSocket live reload
     if (pathname === "/live") {
       const { socket, response } = Deno.upgradeWebSocket(req);
       socket.onopen = () => clients.add(socket);
@@ -22,68 +38,68 @@ export const ReqHandler = (
       return response;
     }
 
-    // 特别处理 .ts 文件
-    if (pathname.endsWith(".ts")) {
+    // .ts / .js
+    if (pathname.endsWith(".ts") || pathname.endsWith(".js")) {
       try {
-        const content = await real_time_info(filePath) as string;
-        return new Response(content, {
-          headers: { "Content-Type": "application/javascript" },
+        const code = await real_time_info(absPath);
+        return new Response(code, {
+          headers: { "Content-Type": "application/javascript; charset=utf-8" },
         });
       } catch (err) {
-        console.error(err);
-        return new Response("TS file not found", { status: 404 });
+        console.error("[handler] ts:", err);
+        return text("TS file not found", 404);
       }
     }
 
-    // 特别处理 .css 文件（Tailwind 实时编译）
+    // .css
     if (pathname.endsWith(".css")) {
       try {
-        const css = await view_tailwindcss(filePath);
+        const css = await view_tailwindcss(absPath);
         return new Response(css, {
-          headers: { "Content-Type": "text/css" },
+          headers: { "Content-Type": "text/css; charset=utf-8" },
         });
       } catch (err) {
-        console.error(err);
-        return new Response("CSS compile error", { status: 500 });
+        console.error("[handler] css:", err);
+        return text("CSS compile error", 500);
       }
     }
 
-    // 📦 通用静态文件处理
+    // 静态文件
     try {
-      const stat = await Deno.stat(filePath);
+      const stat = await Deno.stat(absPath);
       if (stat.isFile) {
-        const ext = extname(pathname);
-        const mime = contentType(ext) || "application/octet-stream";
-        const content = await Deno.readFile(filePath);
+        const mime = contentType(extname(pathname)) ??
+          "application/octet-stream";
+        const content = await Deno.readFile(absPath);
         return new Response(content, {
           headers: { "Content-Type": mime },
         });
       }
-    } catch (_err) {
-      // 继续 fallback 到 index.html
+    } catch {
+      // fallthrough
     }
 
-    // 🧩 默认返回 index.html + LiveReload 注入脚本
+    // 兜底：index.html + LiveReload 注入
     try {
-      let html = await Deno.readTextFile("index.html");
+      let html = await Deno.readTextFile(resolve(ROOT, "index.html"));
       const reloadScript = `
-            <script defer>
-              const ws = new WebSocket("ws://${LOCAL_IP}:8864/live");
-              ws.onmessage = (event) => {
-                if (event.data === "reload") {
-                  console.log("Reloading page...");
-                  location.reload();
-                }
-              };
-            </script>
-            </body>`;
+<script defer>
+(() => {
+  const proto = location.protocol === "https:" ? "wss:" : "ws:";
+  const host = location.hostname;
+  const ws = new WebSocket(proto + "//" + host + ":${PORT}/live");
+  ws.onmessage = (e) => { if (e.data === "reload") location.reload(); };
+})();
+</script>
+</body>`;
       html = html.replace("</body>", reloadScript);
       return new Response(html, {
-        headers: { "Content-Type": "text/html" },
+        headers: { "Content-Type": "text/html; charset=utf-8" },
       });
     } catch (err) {
-      console.error("index.html missing:", err);
-      return new Response("index.html not found", { status: 500 });
+      console.error("[handler] index.html:", err);
+      return text("index.html not found", 500);
     }
   };
 };
+

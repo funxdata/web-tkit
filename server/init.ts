@@ -1,4 +1,3 @@
-// 初始化html 入口文件
 const app_html =`
 <!DOCTYPE html>
 <html lang="en">
@@ -11,12 +10,11 @@ const app_html =`
     <h1>web-ToolKit from index.html!</h1>
   </div>
 </body>
-<script type="module" src="./src/app.ts"></script>
+<script type="module" src="/src/app.ts"></script>
 </html>`
 
-await Deno.writeTextFile("./index.html", app_html);
+await Deno.writeTextFile("/index.html", app_html);
 
-// 初始化src目录
 await Deno.mkdir("src", { recursive: true });
 
 const app_info = `
@@ -24,12 +22,10 @@ const app_info = `
   const app_doc = document.getElementById("app") as HTMLElement;
   app_doc.innerHTML = "<h1>web-ToolKit from index.html!</h1>";
   `
-await Deno.writeTextFile("./src/app.ts", app_info);
+await Deno.writeTextFile("/src/app.ts", app_info);
 
-// 初始化assets
 await Deno.mkdir("assets", { recursive: true });
 
-// 初始化css
 await Deno.mkdir("assets/css", { recursive: true });
 const base_css_info = `
   @import "tailwindcss";
@@ -38,7 +34,6 @@ const base_css_info = `
   }
   `
 await Deno.writeTextFile("./assets/css/base.css", base_css_info);
-// 初始化deno
 const deno_cfg = `
 {
     "version": "0.0.1",
@@ -57,10 +52,8 @@ const deno_cfg = `
 }
 `
 
-// 写入 deno.json（存在则覆盖）
 await Deno.writeTextFile("./deno.json", deno_cfg);
 
-// 更新到最新的deno 包
 const cmd = new Deno.Command("deno", {
   args: ["update", "--latest"],
   stdout: "piped",

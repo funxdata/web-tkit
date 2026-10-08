@@ -1,42 +1,47 @@
 {
   "name": "@funxdata/toolkit",
-  "version": "0.1.36",
+  "version": "0.1.37",
   "license": "MIT",
-  "exclude": [
-    "template/",
-    "webdx/",
-    "pages/",
-    "dist/",
-    ".vscode/",
-    "plugin",
-    "node_modules",
-    "screen.exe",
-    "index.html",
-    ".gitmodules"
-  ],
+  "repository": "https://github.com/funxdata/web-tkit",
+
   "exports": {
-    "./init":"./server/init.ts",
-    "./view":"./server/server.ts",
-    "./pack":"./server/pack.ts",
-    "./screen":"./server/screen.ts",
-    "./release":"./server/release.ts"
+    ".":         "./server/server.ts",
+    "./init":    "./server/init.ts",
+    "./view":    "./server/server.ts",
+    "./pack":    "./server/pack.ts",
+    "./screen":  "./server/screen.ts",
+    "./release": "./server/release.ts",
+    "./handler": "./server/handler.ts",
+    "./parsecss":"./server/parsecss.ts",
+    "./realtime":"./server/realtime.ts",
+    "./watch":   "./server/watch_file.ts",
+    "./upfiles": "./server/upfiles.ts",
+    "./localip": "./server/localip.ts"
   },
+
   "tasks": {
-    "view": "deno run --allow-net --allow-read --allow-run --allow-env --allow-ffi --allow-sys --allow-write server/server.ts",
-    "screen": "deno run --allow-net --allow-read --allow-run --allow-env --allow-ffi --allow-sys server/screen.ts",
-    "pack":"deno run  --allow-net --allow-read --allow-run --allow-env --allow-ffi --allow-write server/pack.ts",
-    "release":"deno run  --allow-net --allow-read --allow-run --allow-env --allow-ffi --allow-write server/release.ts"
+    "view":    "deno run --allow-net --allow-read --allow-write --allow-run --allow-env --allow-ffi --allow-sys server/server.ts",
+    "screen":  "deno run --allow-net --allow-read --allow-write --allow-run --allow-env --allow-ffi --allow-sys server/screen.ts",
+    "pack":    "deno run --allow-net --allow-read --allow-write --allow-run --allow-env --allow-ffi --allow-sys server/pack.ts",
+    "release": "deno run --allow-net --allow-read --allow-write --allow-run --allow-env --allow-ffi --allow-sys server/release.ts"
   },
+
   "imports": {
-    "@bobthered/tailwindcss-palette-generator": "jsr:@bobthered/tailwindcss-palette-generator@^4.0.0",
+    "@/":        "./webdx/",
+    "@/tools/":  "./webdx/tools/",
+    "@/http/":   "./webdx/http/",
+    "@/sse/":    "./webdx/sse/",
+    "@/soket/":  "./webdx/soket/",
+
     "@deno/emit": "jsr:@deno/emit@^0.46.0",
-    "@funxdata/webdx/dxhttp": "jsr:@funxdata/webdx@^0.0.7/dxhttp",
-    "@std/assert": "jsr:@std/assert@^1.0.14",
     "@std/fs": "jsr:@std/fs@^1.0.19",
     "@std/media-types": "jsr:@std/media-types@^1.1.0",
     "@std/path": "jsr:@std/path@^1.1.2",
-    "@tailwindcss/oxide": "npm:@tailwindcss/oxide@4.1.13",
     "@tailwindcss/postcss": "npm:@tailwindcss/postcss@^4.1.13",
+    "@funxdata/webdx/dxhttp":  "./webdx/http/exhttp.ts",
+    "@funxdata/webdx/dxsse":   "./webdx/sse/dxsse.ts",
+    "@funxdata/webdx/dxsoket": "./webdx/soket/dxsoket.ts",
+    "@funxdata/webdx/tools":   "./webdx/tools/index.ts",
     "autoprefixer": "npm:autoprefixer@^10.4.21",
     "cssnano": "npm:cssnano@^7.1.1",
     "esbuild": "npm:esbuild@^0.25.10",
@@ -45,8 +50,36 @@
     "postcss-nested": "npm:postcss-nested@^7.0.2",
     "tailwindcss": "npm:tailwindcss@^4.1.13"
   },
+
   "compilerOptions": {
-    "lib": ["dom", "dom.iterable", "esnext","deno.ns"]
+    "lib": ["dom", "dom.iterable", "esnext", "deno.ns"]
   },
+
+  "fmt": {
+    "lineWidth": 100,
+    "semiColons": true,
+    "singleQuote": false
+  },
+
+  "lint": {
+    "rules": {
+      "tags": ["recommended"]
+    }
+  },
+
+  "exclude": [
+    "template/",
+    "pages/",
+    "dist/",
+    "plugin/",
+    "screen.exe",
+    "index.html",
+    "tests/"
+  ],
+
+  "publish": {
+    "include": ["server/", "README.md", "LICENSE", "deno.json"]
+  },
+
   "nodeModulesDir": "auto"
 }
