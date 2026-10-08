@@ -21,16 +21,20 @@ const isIgnored = (filePath: string): boolean => {
 
 const DEBOUNCE_MS = 100;
 
+export interface WatcherHandle {
+  stop: () => void;
+}
+
 export const Watch_Files = (
   clients: Set<WebSocket>,
   onReload?: (paths: string[]) => void,
-) => {
+): WatcherHandle => {
   const watcher = Deno.watchFs(["./"]);
 
   let pending = new Set<string>();
   let timer: number | null = null;
 
-  const flush = () => {
+  const flush = (): void => {
     timer = null;
     if (pending.size === 0) return;
     const paths = [...pending];
@@ -51,7 +55,7 @@ export const Watch_Files = (
     }
   };
 
-  (async () => {
+  (async (): Promise<void> => {
     for await (const event of watcher) {
       if (!["modify", "create", "remove"].includes(event.kind)) continue;
 
@@ -65,7 +69,7 @@ export const Watch_Files = (
   })();
 
   return {
-    stop: () => {
+    stop: (): void => {
       if (timer !== null) clearTimeout(timer);
       watcher.close();
     },

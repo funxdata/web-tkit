@@ -7,10 +7,10 @@ import { view_tailwindcss } from "./parsecss.ts";
 const ROOT = resolve(".");
 const PORT = 8864;
 
-const isInsideRoot = (absPath: string) =>
+const isInsideRoot = (absPath: string): boolean =>
   absPath === ROOT || absPath.startsWith(ROOT + "/");
 
-const text = (body: string, status = 200) =>
+const text = (body: string, status = 200): Response =>
   new Response(body, {
     status,
     headers: { "Content-Type": "text/plain; charset=utf-8" },
@@ -19,18 +19,17 @@ const text = (body: string, status = 200) =>
 export const ReqHandler = (
   clients: Set<WebSocket>,
   LOCAL_IP: string,
-) => {
+): (req: Request) => Promise<Response> => {
   return async function req_Handler(req: Request): Promise<Response> {
     const url = new URL(req.url);
     const pathname = decodeURIComponent(url.pathname);
     const absPath = normalize(resolve(ROOT, "." + pathname));
 
-    // 路径穿越拦截
     if (!isInsideRoot(absPath)) {
       return text("Forbidden", 403);
     }
 
-    // 🔁 WebSocket live reload
+    // WebSocket live reload
     if (pathname === "/live") {
       const { socket, response } = Deno.upgradeWebSocket(req);
       socket.onopen = () => clients.add(socket);

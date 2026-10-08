@@ -68,7 +68,7 @@ export const real_time_info = async (file_src: string): Promise<string> => {
 };
 
 /** 供 watch 调用，文件变更时清掉对应缓存 */
-export const invalidate_realtime = (filePath: string) => {
+export const invalidate_realtime = (filePath: string): void => {
   const normalized = filePath.replace(/^\.\//, "");
   cache.delete(normalized);
   cache.delete("./" + normalized);
