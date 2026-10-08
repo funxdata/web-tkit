@@ -1,48 +1,56 @@
-// 针对tailwindcss的实时编译
-import postcss from "postcss"; // css编译工具
-import autoprefixer from "autoprefixer";  // 针对不同的浏览器的一些兼容
-import tailwindPostcss from "@tailwindcss/postcss"; // tailwindcss的插件使用
-import postcssImport from "postcss-import";        // postcss文件兼容导入
-import postcssNested from "postcss-nested"; // 代码一些规范化转义
-import cssnano from "cssnano";  // 代码压缩工具
+// server/parsecss.ts
+import postcss from "postcss";
+import autoprefixer from "autoprefixer";
+import tailwindPostcss from "@tailwindcss/postcss";
+import postcssImport from "postcss-import";
+import postcssNested from "postcss-nested";
+import cssnano from "cssnano";
 
-// deno-lint-ignore no-explicit-any
-const tailwindConfig: any = {
-  content: ["./src/*.{html,js,ts,css}"],
-  theme: { extend: {} },
-  corePlugins: {},
+const buildPlugins = (minify: boolean) => {
+  const plugins = [
+    postcssImport(),
+    postcssNested(),
+    tailwindPostcss(),
+    autoprefixer(),
+  ];
+  if (minify) plugins.push(cssnano());
+  return plugins;
 };
 
-// 编译样式
-const view_tailwindcss = async (inputFile:string):Promise<string>=>{
-    const css = Deno.readTextFileSync(inputFile);
-    const result = await postcss([
-        postcssImport(), 
-        postcssNested(),
-        tailwindPostcss(tailwindConfig), 
-        autoprefixer()
-    ]).process(css, {
-        from: inputFile,
-    });
-    return result.css;
+interface CacheEntry {
+  mtime: number;
+  css: string;
 }
+const viewCache = new Map<string, CacheEntry>();
 
-// 打包
-const pack_tailwindcss = async (inputFile:string,outFile:string)=>{
-    const css = Deno.readTextFileSync(inputFile);
-    const result = await postcss([
-        postcssImport(), 
-        postcssNested(),
-        tailwindPostcss(tailwindConfig), 
-        autoprefixer(),
-        cssnano()
-    ]).process(css, {
-        from: inputFile,
-    });
-    Deno.writeTextFile(outFile,result.css)
-}
+const compile = async (inputFile: string, minify: boolean): Promise<string> => {
+  const css = await Deno.readTextFile(inputFile);
+  const result = await postcss(buildPlugins(minify)).process(css, {
+    from: inputFile,
+  });
+  return result.css;
+};
 
-export {
-    view_tailwindcss,
-    pack_tailwindcss
-}
+/** 开发时实时编译（带 mtime 缓存） */
+export const view_tailwindcss = async (inputFile: string): Promise<string> => {
+  const stat = await Deno.stat(inputFile).catch(() => null);
+  if (!stat?.isFile) throw new Error(`CSS file not found: ${inputFile}`);
+
+  const mtime = stat.mtime?.getTime() ?? 0;
+  const cached = viewCache.get(inputFile);
+  if (cached && cached.mtime === mtime) return cached.css;
+
+  const css = await compile(inputFile, false);
+  viewCache.set(inputFile, { mtime, css });
+  return css;
+};
+
+/** 打包时压缩 */
+export const pack_tailwindcss = async (
+  inputFile: string,
+  outFile: string,
+): Promise<void> => {
+  const css = await compile(inputFile, true);
+  await Deno.writeTextFile(outFile, css);
+};
+
