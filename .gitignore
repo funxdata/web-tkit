@@ -142,6 +142,3 @@ examples
 plugin/target
 plugin/target/*
 plugin/Cargo.lock
-screen.exe.WebView2
-run.flag
-./screen*

@@ -1,9 +1,11 @@
 // server/realtime.ts
+import { resolve } from "@std/path";
 import { bundle } from "@deno/emit";
 
 type ImportMap = Record<string, unknown>;
 
-const importMapUrl = new URL("../deno.json", import.meta.url);
+// 读取用户项目根目录的 deno.json，而不是 toolkit 包自身的配置
+const importMapUrl = resolve(Deno.cwd(), "deno.json");
 let importMap: ImportMap = {};
 let importMapMtime = 0;
 

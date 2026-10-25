@@ -39,11 +39,10 @@ const deno_cfg = `
     "version": "0.0.1",
     "tasks": {
         "view": "deno run --allow-net --allow-read  --allow-run  --allow-env --allow-ffi --allow-sys jsr:@funxdata/toolkit/view",
-        "pack":"deno run --allow-net --allow-read --allow-env --allow-ffi --allow-sys jsr:@funxdata/toolkit/pack",
-        "screen": "deno run --allow-net --allow-read --allow-run --allow-env --allow-ffi --allow-sys jsr:@funxdata/toolkit/screen"
+        "pack":"deno run --allow-net --allow-read --allow-env --allow-ffi --allow-sys jsr:@funxdata/toolkit/pack"
     },
     "imports": {
-        "@funxdata/toolkit": "jsr:@funxdata/funxdata@^0.1.36"
+        "@funxdata/toolkit": "jsr:@funxdata/toolkit@^0.1.37"
     },
     "compilerOptions": {
       "lib": ["dom", "dom.iterable", "esnext","deno.ns"]

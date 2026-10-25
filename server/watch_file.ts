@@ -8,7 +8,6 @@ const IGNORED_DIRS = new Set([
   ".git",
   ".vscode",
   ".cache",
-  "screen.exe.WebView2",
 ]);
 
 const isIgnored = (filePath: string): boolean => {

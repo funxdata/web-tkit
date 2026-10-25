@@ -79,6 +79,11 @@ export const ReqHandler = (
       // fallthrough
     }
 
+    // 带扩展名但未命中静态文件：直接 404，避免把 index.html 返回给 JS/CSS/图片
+    if (extname(pathname)) {
+      return text("Not found", 404);
+    }
+
     // 兜底：index.html + LiveReload 注入
     try {
       let html = await Deno.readTextFile(resolve(ROOT, "index.html"));
