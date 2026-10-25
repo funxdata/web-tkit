@@ -13,8 +13,17 @@
 - 🔥 **实时热更新**：基于 `Deno.watchFs` + WebSocket 的 live reload。
 - 📦 **TS/JS 打包**：基于 `@deno/emit` + `esbuild`，直接读取 `deno.json` 的 import map。
 - 🎨 **TailwindCSS 实时编译**：PostCSS 链路（import / nested / autoprefixer），开发时免构建。
-- 🖥️ **大屏模式**：内置 `screen` 任务，可驱动独立 WebView 大屏应用。
 - 🚀 **一键发布**：`release` 任务将构建产物上传至又拍云（S3 兼容）。
+
+---
+
+## 版本说明
+
+- **0.2.0**（当前）：移除 `screen` 大屏支持（`./screen` export 与 `screen` task）；
+  `realtime` 改为读取用户项目根目录的 `deno.json`，不再读 toolkit 包自身的配置；
+  `pack` / `release` 增加参数校验，带扩展名但未命中的请求返回 404，上传失败时退出非 0。
+  升级后请删除下游项目里遗留的 `screen` task。
+- **0.1.x**：内置 `screen` 大屏任务。
 
 ---
 
@@ -78,15 +87,7 @@ deno task pack assets/css/base.css  # → assets/<name>_base_<version>.css
 - `.ts` / `.js` 会经过 `esbuild` 压缩（drop `console` / `debugger`）。
 - `.css` 会经过完整 PostCSS + `cssnano` 压缩。
 
-### 4. 大屏模式（可选）
-
-```bash
-deno task screen <screen.exe 路径>
-```
-
-启动一个独立的 WebView 大屏，同时运行开发服务器。按 `Ctrl+C` 退出时会尝试关闭 `screen.exe`。
-
-### 5. 发布到又拍云（可选）
+### 4. 发布到又拍云（可选）
 
 先设置环境变量：
 
@@ -112,7 +113,6 @@ deno task release <本地目录> <云端目录>
 | --------- | -------------------------- | --------------------- |
 | `view`    | 启动开发服务器 + 热更新    | —                     |
 | `pack`    | 打包 TS/JS 或编译 CSS      | `<入口文件>`          |
-| `screen`  | 启动大屏 + 开发服务器      | `<screen 可执行文件>` |
 | `release` | 上传构建产物到又拍云       | `<本地目录> <云端目录>` |
 
 ---
@@ -129,7 +129,6 @@ deno task release <本地目录> <云端目录>
 │   ├── parsecss.ts  # TailwindCSS / PostCSS 链路
 │   ├── realtime.ts  # .ts 实时 bundle
 │   ├── release.ts   # 又拍云发布
-│   ├── screen.ts    # 大屏模式
 │   ├── server.ts    # 开发服务器入口
 │   ├── upfiles.ts   # 又拍云上传封装
 │   └── watch_file.ts# 文件监听 + 广播

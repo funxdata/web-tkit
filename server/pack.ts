@@ -7,6 +7,10 @@ import { pack_tailwindcss } from "./parsecss.ts";
 
 // 1. 获取入口文件
 const pack_src = Deno.args[0];
+if (!pack_src) {
+  console.error("Usage: deno task pack <entry.ts|entry.js|entry.css>");
+  Deno.exit(1);
+}
 const stat = await Deno.stat(pack_src).catch(() => null);
 if (!stat?.isFile) {
   console.error(`${pack_src} not found`);

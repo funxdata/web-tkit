@@ -49,7 +49,7 @@ export async function uploadFileToUpyun(
   remoteDir: string,
   localPath: string,
   relativePath: string,
-): Promise<void> {
+): Promise<boolean> {
   try {
     const fileContent = await Deno.readFile(localPath);
     const ext = extname(relativePath).toLowerCase();
@@ -68,8 +68,10 @@ export async function uploadFileToUpyun(
 
     await s3.send(command);
     console.log(`✅ 上传成功: ${key} (${contentType})`);
+    return true;
   } catch (err) {
     console.error(`❌ 上传失败 (${relativePath}):`, err);
+    return false;
   }
 }
 
