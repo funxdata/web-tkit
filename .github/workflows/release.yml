@@ -8,7 +8,6 @@ on:
 
 permissions:
   contents: read
-  id-token: write
 
 jobs:
   publish:
@@ -26,6 +25,8 @@ jobs:
 
       - name: Publish to JSR
         shell: bash
+        env:
+          JSR_TOKEN: ${{ secrets.JSR_TOKEN }}
         run: |
           set +e
           npx jsr publish > /tmp/jsr-publish.log 2>&1
