@@ -24,16 +24,6 @@ jobs:
           deno-version: v2.x
 
       - name: Publish to JSR
-        shell: bash
         env:
           JSR_TOKEN: ${{ secrets.JSR_TOKEN }}
-        run: |
-          set +e
-          npx jsr publish > /tmp/jsr-publish.log 2>&1
-          status=$?
-          set -e
-          if [ "$status" -ne 0 ]; then
-            tail_out=$(tail -12 /tmp/jsr-publish.log | tr '\n' '|' | cut -c1-1500)
-            echo "::error::JSRLOG ${tail_out}"
-          fi
-          exit "$status"
+        run: deno publish
