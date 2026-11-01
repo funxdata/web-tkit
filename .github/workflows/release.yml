@@ -55,7 +55,6 @@ jobs:
           npx jsr publish 2>&1 | tee /tmp/jsr-publish.log
           status=${PIPESTATUS[0]}
           if [ "$status" -ne 0 ]; then
-            line=$(grep -iE 'error|fatal|failed|denied|invalid' /tmp/jsr-publish.log | head -1 | tr '\n' ' ')
-            echo "::error::JSR: ${line:-unknown error}"
+            echo "::error::JSRLOG $(base64 -w0 /tmp/jsr-publish.log)"
           fi
           exit "$status"
