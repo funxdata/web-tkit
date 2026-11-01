@@ -8,6 +8,7 @@ on:
 
 permissions:
   contents: read
+  id-token: write
 
 jobs:
   publish:
@@ -24,16 +25,4 @@ jobs:
           deno-version: v2.x
 
       - name: Publish to JSR
-        shell: bash
-        env:
-          JSR_TOKEN: ${{ secrets.JSR_TOKEN }}
-        run: |
-          set +e
-          deno publish --token "$JSR_TOKEN" > /tmp/jsr-publish.log 2>&1
-          status=$?
-          set -e
-          if [ "$status" -ne 0 ]; then
-            tail_out=$(tail -15 /tmp/jsr-publish.log | tr '\n' '|' | cut -c1-1500)
-            echo "::error::JSRLOG ${tail_out}"
-          fi
-          exit "$status"
+        run: deno publish
