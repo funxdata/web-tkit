@@ -25,4 +25,14 @@ jobs:
           deno-version: v2.x
 
       - name: Publish to JSR
-        run: npx jsr publish
+        shell: bash
+        run: |
+          set +e
+          npx jsr publish > /tmp/jsr-publish.log 2>&1
+          status=$?
+          set -e
+          if [ "$status" -ne 0 ]; then
+            line=$(grep -iE 'error|fatal|failed|denied|invalid|fatal:' /tmp/jsr-publish.log | head -1 | tr '\n' ' ')
+            echo "::error::JSR ${status}: ${line:-no matched line}"
+          fi
+          exit "$status"
